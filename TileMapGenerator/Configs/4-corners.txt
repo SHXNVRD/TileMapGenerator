@@ -1,0 +1,68 @@
+            int width = 30;
+            int height = 30;
+            int generationCount = 15;
+            
+            WfcGenerator generator = new(width, height,
+            new List<TileType>
+            {
+                TileType.CornerN,
+                TileType.CornerE,
+                TileType.CornerS,
+                TileType.CornerW
+            },
+            new Dictionary<TileType, int>
+            {
+                { TileType.CornerN, 4 },
+                { TileType.CornerE, 4 },
+                { TileType.CornerS, 4 },
+                { TileType.CornerW, 4 }
+            }, 
+            new Dictionary<TileType, Dictionary<Direction, List<TileType>>>
+            {
+                { TileType.CornerN, new Dictionary<Direction, List<TileType>>
+                {
+                    { Direction.North, new List<TileType> {TileType.CornerE, TileType.CornerS}},
+                    { Direction.East, new List<TileType> {TileType.CornerW, TileType.CornerS}},
+                    { Direction.South, new List<TileType> {TileType.CornerE, TileType.CornerS}},
+                    { Direction.West, new List<TileType> {TileType.CornerW, TileType.CornerS}},
+                }},
+                { TileType.CornerE, new Dictionary<Direction, List<TileType>>
+                {
+                    { Direction.North, new List<TileType> {TileType.CornerN, TileType.CornerW}},
+                    { Direction.East, new List<TileType> {TileType.CornerW, TileType.CornerS}},
+                    { Direction.South, new List<TileType> {TileType.CornerN, TileType.CornerW}},
+                    { Direction.West, new List<TileType> {TileType.CornerW, TileType.CornerS}},
+                }},
+                { TileType.CornerS, new Dictionary<Direction, List<TileType>>
+                {
+                    { Direction.North, new List<TileType> {TileType.CornerN, TileType.CornerW}},
+                    { Direction.East, new List<TileType> {TileType.CornerN, TileType.CornerE}},
+                    { Direction.South, new List<TileType> {TileType.CornerN, TileType.CornerW}},
+                    { Direction.West, new List<TileType> {TileType.CornerN, TileType.CornerN}},
+                }},
+                { TileType.CornerW, new Dictionary<Direction, List<TileType>>
+                {
+                    { Direction.North, new List<TileType> {TileType.CornerS, TileType.CornerE}},
+                    { Direction.East, new List<TileType> {TileType.CornerN, TileType.CornerE}},
+                    { Direction.South, new List<TileType> {TileType.CornerS, TileType.CornerE}},
+                    { Direction.West, new List<TileType> {TileType.CornerN, TileType.CornerE}},
+                }}
+            });
+
+            var tileSheetPath = $"{AppDomain.CurrentDomain.BaseDirectory}/TileSheets/corners.png";
+            var outputPath = "/home/rodion/source/TileMapGenerator/TileMapGenerator/Maps";
+            MapDrawer drawer = new(10, 1, tileSheetPath, generator);
+
+            for (int i = 0; i < generationCount; i++)
+            {
+                drawer.RenderMap($"{outputPath}/New-tile-map-{i}.png");
+            }
+            
+
+    public enum TileType
+    {
+        CornerN = 0,
+        CornerE = 1,
+        CornerS = 2,
+        CornerW = 3
+    }
